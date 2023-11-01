@@ -43,11 +43,28 @@ public class UserService {
         }
     }
 
+    public int addUser(String username, String password, boolean privileged){
+        if (this.userDataAccess.getUser(username) == null){
+            this.userDataAccess.addUser(new User(username, password, getMaxId()+1, privileged));
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
     public boolean isPrivileged(String username){
         if (this.userDataAccess.getUser(username) == null) {
             return false;
         }else {
             return this.userDataAccess.getUser(username).isPrivileged();
         }
+    }
+
+    public int getMaxId(){
+        int res = 0;
+        for (User user : getUsers()) {
+            if (user.getId() > res) res = user.getId();
+        }
+        return res;
     }
 }

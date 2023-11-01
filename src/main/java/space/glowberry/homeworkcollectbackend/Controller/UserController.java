@@ -55,7 +55,7 @@ public class UserController {
         return result;
     }
 
-    @PostMapping(value = "login", consumes = "application/json")
+    @PostMapping(value = "/login", consumes = "application/json")
     public JSONObject login(@RequestBody User user,
                             HttpServletRequest request,
                             HttpServletResponse response){
@@ -131,6 +131,15 @@ public class UserController {
         result.put("code", 0);
         result.put("message", "您已经退出，无需重复退出");
         return result;
+    }
+
+    @PostMapping(value = "/register", consumes = "application/json")
+    public JSONObject register(@RequestBody User user
+                               ){
+        int code = this.userService.addUser(user.getUsername(), user.getPassword(), user.isPrivileged());
+        JSONObject res = new JSONObject();
+        res.put("code", code);
+        return res;
     }
 
     @GetMapping("/user_agreement")

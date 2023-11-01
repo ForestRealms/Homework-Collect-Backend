@@ -44,4 +44,9 @@ public class UserDataAccess implements DataAccess{
         return this.template.query("SELECT * FROM users", new UserRowMapper());
 
     }
+
+    public void addUser(User user){
+        this.template.update("insert into users (username, password, privileged, id) VALUES " +
+                "(?, ?, ?, ?)", user.getUsername(), user.getPassword(), user.isPrivileged(), user.getId());
+    }
 }
