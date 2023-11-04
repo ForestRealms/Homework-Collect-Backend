@@ -47,4 +47,14 @@ public class Homework {
     public void setDue(Date due) {
         this.due = due;
     }
+
+    @Override
+    public String toString() {
+        return "Homework{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", due=" + due +
+                '}';
+    }
 }
