@@ -26,10 +26,8 @@ public class HomeworkDataAccess implements DataAccess, EntityGetter<Homework> {
     }
 
     public Homework getById(int id){
-        for (Homework homework : get()) {
-            if (homework.getId() == id) return homework;
-        }
-        return null;
+        return this.template.queryForObject("select * from homework where id=?",
+                new HomeworkRowMapper(), id);
     }
 
     public void addHomework(Homework homework) throws HomeworkAlreadyExists {
