@@ -54,6 +54,10 @@ public class HomeworkDataAccess implements DataAccess, EntityGetter<Homework> {
 
     }
 
+    /**
+     * 更新某个作业实体，以作业的ID为索引进行查找
+     * @param homework 新的作业实体
+     */
     public void updateHomework(Homework homework){
         for (Homework h : get()) {
             if(h.getId() == homework.getId()){
@@ -62,4 +66,17 @@ public class HomeworkDataAccess implements DataAccess, EntityGetter<Homework> {
             }
         }
     }
+
+    public boolean isExists(int id){
+        return this.getById(id) != null;
+    }
+
+    public int getMaximumId(){
+        int res = 0;
+        for (Homework homework : this.get()) {
+            if (homework.getId() > res) res = homework.getId();
+        }
+        return res;
+    }
+
 }

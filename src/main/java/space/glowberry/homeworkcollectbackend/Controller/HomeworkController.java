@@ -38,7 +38,7 @@ public class HomeworkController {
     }
 
     @PostMapping("/addHomework")
-    public JSONObject addHomework(@RequestParam("id") int id,
+    public JSONObject addHomework(
                            @RequestParam("title") String title,
                            @RequestParam("description") String description,
                            @RequestParam("year") int year,
@@ -51,13 +51,13 @@ public class HomeworkController {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month-1, date, hour, minute, second);
         Date d = calendar.getTime();
-        if (this.homeworkService.addHomework(id, title, description, d) == 1) {
+        try {
+            this.homeworkService.addHomework(title, description, d);
             res.put("code", HomeworkControllerResponseCode.HOMEWORK_ADD_SUCCESSFULLY);
-            res.put("message", "添加成功");
-            return res;
-        }else {
-            res.put("code", HomeworkControllerResponseCode.HOMEWORK_ALREADY_EXISTS);
-            res.put("message", "作业已经存在，无需重复添加");
+            res.put("message", "作业新增成功");
+        } catch (Exception e){
+            res.put("code", HomeworkControllerResponseCode.HOMEWORK_ADD_UNSUCCESSFULLY);
+            res.put("message", "添加失败，原因未知");
         }
         return res;
     }

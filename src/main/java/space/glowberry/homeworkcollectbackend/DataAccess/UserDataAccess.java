@@ -30,6 +30,11 @@ public class UserDataAccess implements DataAccess{
         this.template = template;
     }
 
+    public User getById(int id){
+        return this.template.queryForObject("select * from users where id=?",
+                new UserRowMapper(), id);
+    }
+
     public User getUser(String username){
         try {
             return this.template.queryForObject("SELECT * FROM users WHERE username=?",
@@ -48,5 +53,9 @@ public class UserDataAccess implements DataAccess{
     public void addUser(User user){
         this.template.update("insert into users (username, password, privileged, id) VALUES " +
                 "(?, ?, ?, ?)", user.getUsername(), user.getPassword(), user.isPrivileged(), user.getId());
+    }
+
+    public boolean isExists(int id){
+        return this.getById(id) != null;
     }
 }

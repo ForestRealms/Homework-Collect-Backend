@@ -2,12 +2,10 @@ package space.glowberry.homeworkcollectbackend.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 import space.glowberry.homeworkcollectbackend.DataAccess.HomeworkDataAccess;
 import space.glowberry.homeworkcollectbackend.Entity.Exception.HomeworkAlreadyExists;
 import space.glowberry.homeworkcollectbackend.Entity.Homework;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 
 @Service
@@ -20,16 +18,17 @@ public class HomeworkService {
         this.homeworkDataAccess = homeworkDataAccess;
     }
 
-    public int addHomework(int id,
-                            String title,
+    public Homework addHomework(String title,
                             String description,
                             Date due){
+        int id = this.homeworkDataAccess.getMaximumId() + 1;
+        Homework homework = new Homework(id, title, description, due);
         try {
-            this.homeworkDataAccess.addHomework(new Homework(id, title, description, due));
-            return 1;
-        }catch (HomeworkAlreadyExists e){
-            return 0;
+            this.homeworkDataAccess.addHomework(homework);
+        } catch (HomeworkAlreadyExists ignored) {
+
         }
+        return homework;
 
     }
 
