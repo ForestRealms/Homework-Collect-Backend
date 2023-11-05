@@ -17,9 +17,9 @@ public class UserDataAccess implements DataAccess{
     @PostConstruct
     private void init(){
         template.execute("CREATE TABLE if not exists `users` ( " +
+                "`id` INT DEFAULT NULL, " +
                 "`username` VARCHAR ( 255 ) DEFAULT NULL, " +
                 "`password` VARCHAR ( 255 ) DEFAULT NULL, " +
-                "`id` INT DEFAULT NULL, " +
                 "`privileged` INT DEFAULT NULL ) " +
                 "ENGINE = INNODB DEFAULT CHARSET = " +
                 "utf8mb4 COLLATE = utf8mb4_0900_ai_ci;");
