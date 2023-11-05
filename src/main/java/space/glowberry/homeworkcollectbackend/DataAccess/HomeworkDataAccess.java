@@ -1,5 +1,6 @@
 package space.glowberry.homeworkcollectbackend.DataAccess;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,16 @@ public class HomeworkDataAccess implements DataAccess, EntityGetter<Homework> {
         return this.template.query("select * from `homework`", new HomeworkRowMapper());
     }
 
+    @PostConstruct
+    private void init(){
+        this.template.execute("CREATE TABLE if not exists `homework` (\n" +
+                "  `id` int NOT NULL,\n" +
+                "  `title` text,\n" +
+                "  `description` longtext,\n" +
+                "  `due` datetime DEFAULT NULL,\n" +
+                "  PRIMARY KEY (`id`)\n" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+    }
     public Homework getById(int id){
         return this.template.queryForObject("select * from homework where id=?",
                 new HomeworkRowMapper(), id);

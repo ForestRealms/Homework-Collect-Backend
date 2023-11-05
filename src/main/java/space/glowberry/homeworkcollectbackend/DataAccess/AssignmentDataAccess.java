@@ -1,5 +1,6 @@
 package space.glowberry.homeworkcollectbackend.DataAccess;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,16 @@ public class AssignmentDataAccess implements EntityGetter<Assignment>{
         return this.template.query("select * from assignment", new AssignmentRowMapper());
     }
 
+    @PostConstruct
+    private void init(){
+        this.template.execute("CREATE TABLE if not exists `assignment` (\n" +
+                "  `id` int NOT NULL,\n" +
+                "  `homework_id` int DEFAULT NULL,\n" +
+                "  `user_id` int DEFAULT NULL,\n" +
+                "  `completion_status` tinyint unsigned DEFAULT '0',\n" +
+                "  PRIMARY KEY (`id`)\n" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+    }
     public Assignment getById(int id){
         return this.template.queryForObject("select * from assignment where id=?", new AssignmentRowMapper(), id);
     }
