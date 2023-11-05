@@ -32,14 +32,8 @@ public class HomeworkController {
         this.homeworkService = homeworkService;
     }
 
-    @GetMapping("/homework/{id}")
-    public Homework getHomework(@PathVariable int id){
-        return this.homeworkDataAccess.getById(id);
-    }
-
     @PostMapping("/addHomework")
-    public JSONObject addHomework(
-                           @RequestParam("title") String title,
+    public JSONObject addHomework(@RequestParam("title") String title,
                            @RequestParam("description") String description,
                            @RequestParam("year") int year,
                            @RequestParam("month") int month,
@@ -87,6 +81,23 @@ public class HomeworkController {
         }
         res.put("code", HomeworkControllerResponseCode.HOMEWORK_NOT_EXISTS);
         res.put("message", "作业不存在");
+        return res;
+    }
+
+    @PostMapping("/getHomework")
+    public JSONObject getHomework(@RequestBody JSONObject params){
+        Integer id = params.getInteger("id");
+        Homework homework = this.homeworkService.get(id);
+        JSONObject res = new JSONObject();
+        if (homework == null) {
+            res.put("code", 0);
+            res.put("message", "作业不存在");
+            return res;
+        }
+        res.put("code", 1);
+        res.put("title", homework.getTitle());
+        res.put("description", homework.getDescription());
+        res.put("due", homework.getDue().toString());
         return res;
     }
 }

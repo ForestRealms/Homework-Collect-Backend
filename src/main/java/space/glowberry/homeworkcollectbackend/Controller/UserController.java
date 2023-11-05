@@ -86,6 +86,7 @@ public class UserController {
                 break;
             case 1:
                 result.put("message", "登录成功");
+                result.put("user_id", this.userService.getUserIdOf(user.getUsername()));
                 String token = this.tokenGenerator.generateToken();
 //                Cookie cookie = new Cookie("token", token);
 //                cookie.setDomain(""); // 包括子域名
@@ -148,4 +149,11 @@ public class UserController {
         agreement.put("message", "用户协议");
         return agreement;
     };
+
+    @PostMapping(value = "/getUserId", consumes = "application/json")
+    public JSONObject getUserId(@RequestBody JSONObject params){
+        JSONObject res = new JSONObject();
+        res.put("user_id", this.userService.getUserIdOf(params.getString("username")));
+        return res;
+    }
 }

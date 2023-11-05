@@ -39,8 +39,8 @@ public class HomeworkPublishTest {
     @Test
     public void publish() throws UserNotFoundException, HomeworkNotFoundException {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2023, Calendar.DECEMBER, 12, 12, 12, 12);
-        Homework homework = this.homeworkService.addHomework("新的作业！", "新的作业描述",
+        calendar.set(2023, Calendar.DECEMBER, 12, 12, 11, 12);
+        Homework homework = this.homeworkService.addHomework("测试作业0102", "新的作业描述",
                 calendar.getTime());
         this.assignmentService.createAssignment(1, homework.getId());
     }

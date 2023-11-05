@@ -67,4 +67,8 @@ public class UserService {
         }
         return res;
     }
+
+    public int getUserIdOf(String username){
+        return this.userDataAccess.getUser(username).getId();
+    }
 }

@@ -18,6 +18,10 @@ public class HomeworkService {
         this.homeworkDataAccess = homeworkDataAccess;
     }
 
+    public Homework get(int id){
+        return this.homeworkDataAccess.getById(id);
+    }
+
     public Homework addHomework(String title,
                             String description,
                             Date due){
